@@ -84,7 +84,15 @@ public class PersonController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
+    //private void OnTriggerEnter(Collider other)
+    {
+        CollisionDetected(collision.gameObject);
+        //CollisionDetected(other.gameObject);
+    }
+
+    //private void OnTriggerEnter(Collider other)
+    void CollisionDetected(GameObject other)
     {
         if (other.gameObject.transform.name == ("NorthWall"))
         {
@@ -108,13 +116,17 @@ public class PersonController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Person"))
         {
-            ContactedPerson(other);
+            ContactedPerson(other.gameObject.GetComponent<PersonController>());
+        }
+        else
+        {
+            Debug.Log("moc moc!");
         }
     }
 
-    void ContactedPerson(Collider other)
+    void ContactedPerson(PersonController p)
     {
-        PersonController p = other.gameObject.GetComponent<PersonController>();
+        //PersonController p = other.gameObject.GetComponent<PersonController>();
         if (p.infected && !infected && !recovered && !p.dead)
         {
             infected = true;

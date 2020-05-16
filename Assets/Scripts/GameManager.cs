@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-
     float xRange = 35;
     float zRange = 15;
     [SerializeField] int wave;
