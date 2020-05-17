@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    float xRange = 35;
-    float zRange = 15;
+    readonly float xRange = 35;
+    readonly float zRange = 15;
     [SerializeField] int wave;
     [SerializeField] int minPeoplePerWave;
     [SerializeField] int minInfectedNumber;
@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int maxPool;
 
     List<GameObject> people;
+    [SerializeField] GameObject medic;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,16 @@ public class GameManager : MonoBehaviour
         people.Clear();
         peoplePool.ForEach(p => p.SetActive(false));
         PreparePeople(minPeoplePerWave + wave, minInfectedNumber + wave);
+        medic.transform.position = new Vector3(0, 1, 0);
+    }
+
+
+    private void Update()
+    {
+        if (IsGameOver())
+        {
+            NewWave();
+        }
 
     }
 
