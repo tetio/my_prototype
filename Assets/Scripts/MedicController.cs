@@ -4,37 +4,40 @@ using UnityEngine;
 
 public class MedicController : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 5f;
+    [SerializeField] private float speed = 5f;
 
-    [SerializeField]
-    GameObject firedMedecine;
+    [SerializeField] GameObject firedMedecine;
 
     float zRange = 20f;
     float xRange = 40f;
+    bool dead;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        dead = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float hMov = Input.GetAxis("Horizontal");
-        float vMov = Input.GetAxis("Vertical");
-        if (hMov != 0 || vMov != 0)
-        {
-            InsideBounds();
-            transform.Translate(new Vector3(hMov, 0, vMov) * speed * Time.deltaTime);
-        }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!IsDead())
         {
-            firedMedecine.transform.position= gameObject.transform.position;
-            firedMedecine.gameObject.SetActive(true);
-            StartCoroutine(FiredMedecineCountdown());
+            float hMov = Input.GetAxis("Horizontal");
+            float vMov = Input.GetAxis("Vertical");
+            if (hMov != 0 || vMov != 0)
+            {
+                InsideBounds();
+                transform.Translate(new Vector3(hMov, 0, vMov) * speed * Time.deltaTime);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                firedMedecine.transform.position = gameObject.transform.position;
+                firedMedecine.gameObject.SetActive(true);
+                StartCoroutine(FiredMedecineCountdown());
+            }
         }
     }
 
@@ -65,6 +68,10 @@ public class MedicController : MonoBehaviour
         }
     }
 
+    public bool IsDead()
+    {
+        return dead;
+    }
 
     private void OnCollisionEnter(Collision collision)
     //private void OnTriggerEnter(Collider )
@@ -75,7 +82,7 @@ public class MedicController : MonoBehaviour
             PersonController pc = other.gameObject.GetComponent<PersonController>();
             if (pc.IsInfected())
             {
-                Destroy(gameObject);
+                dead = true;
             }
             else
             {

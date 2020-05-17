@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject medic;
 
     [SerializeField] TextMeshProUGUI newWaveText;
+    [SerializeField] TextMeshProUGUI gameOverText;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     void NewWave()
     {
-        // Reset people
+        wave++;
         people.Clear();
         peoplePool.ForEach(p => p.SetActive(false));
         PreparePeople(minPeoplePerWave + wave, minInfectedNumber + wave);
@@ -38,14 +39,17 @@ public class GameManager : MonoBehaviour
         newWaveText.text = "Wave #" + wave;
         Debug.Log("Wave #" + wave);
         newWaveText.gameObject.SetActive(true);
-        StartCoroutine(ShowNewWaveMessage());
-        wave++;
+        StartCoroutine(ShowNewWaveMessage());  
     }
 
 
     private void Update()
     {
         if (IsGameOver())
+        {
+            gameOverText.gameObject.SetActive(true);
+        }
+        else if (IsWaveOver())
         {
             NewWave();
         }
@@ -91,11 +95,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool IsGameOver()
+    bool IsWaveOver()
     {
         return (people.FindAll(p => p.gameObject.GetComponent<PersonController>().IsHealthy()).Count == people.Count);
     }
 
+    bool IsGameOver()
+    {
+        MedicController cc = medic.GetComponent<MedicController>();
+        return cc.IsDead();
+    }
 
     IEnumerator ShowNewWaveMessage()
     {

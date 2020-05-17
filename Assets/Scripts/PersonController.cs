@@ -156,19 +156,20 @@ public class PersonController : MonoBehaviour
     }
 
 
-    public void Clean(bool infected)
+    public void Clean(bool isInfected)
     {
 
-        this.infected = infected;
+        infected = isInfected;
         dead = false;
         recovered = false;
         if (infected)
         {
-            this.mr.material = illMaterial;
+            mr.material = illMaterial;
+            illTime = Time.realtimeSinceStartup;
         }
         else
         {
-            this.mr.material = healthyMaterial;
+            mr.material = healthyMaterial;
         }
     }
 
