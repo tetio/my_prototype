@@ -21,11 +21,11 @@ public class PersonController : MonoBehaviour
     private GameObject firedMedicine;
 
 
-    public bool infected;
+    bool infected;
+    bool recovered;
+    bool dead;
 
-    private bool recovered;
 
-    private bool dead;
     //[SerializeField]
     private Vector3 dir;
     private MeshRenderer mr;
@@ -36,7 +36,7 @@ public class PersonController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         mr = GetComponent<MeshRenderer>();
         if (Random.Range(0, 100) <= initialPercentageInfected)
@@ -153,5 +153,28 @@ public class PersonController : MonoBehaviour
     public bool IsHealthy()
     {
         return !infected;
+    }
+
+
+    public void Clean(bool infected)
+    {
+
+        this.infected = infected;
+        this.dead = false;
+        this.recovered = false;
+        if (infected)
+        {
+            this.mr.material = illMaterial;
+        }
+        else
+        {
+            this.mr.material = healthyMaterial;
+        }
+    }
+
+
+    public bool IsInfected()
+    {
+        return infected;
     }
 }

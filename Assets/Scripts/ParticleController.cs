@@ -17,7 +17,7 @@ public class ParticleController : MonoBehaviour
         if (other.gameObject.CompareTag("Person"))
         {
             PersonController pc = other.gameObject.GetComponent<PersonController>();
-            if (pc.infected)
+            if (pc.IsInfected())
             {
                 pc.Recover();
             }

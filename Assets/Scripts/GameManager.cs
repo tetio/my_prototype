@@ -55,14 +55,7 @@ public class GameManager : MonoBehaviour
         {
             // Preparing person
             PersonController pc = peoplePool[i].GetComponent<PersonController>();
-            if (i < maxInfected)
-            {
-                pc.infected = true;
-            }
-            else
-            {
-                pc.infected = false;
-            }
+            pc.Clean(i < maxInfected);
             pc.transform.position = GenerateSpawnPosition();
             peoplePool[i].SetActive(true);
             people.Add(peoplePool[i]);
