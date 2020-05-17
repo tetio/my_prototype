@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class GameManager : MonoBehaviour
     List<GameObject> people;
     [SerializeField] GameObject medic;
 
+    [SerializeField] TextMeshProUGUI newWaveText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +35,11 @@ public class GameManager : MonoBehaviour
         peoplePool.ForEach(p => p.SetActive(false));
         PreparePeople(minPeoplePerWave + wave, minInfectedNumber + wave);
         medic.transform.position = new Vector3(0, 1, 0);
+        newWaveText.text = "Wave #" + wave;
+        Debug.Log("Wave #" + wave);
+        newWaveText.gameObject.SetActive(true);
+        StartCoroutine(ShowNewWaveMessage());
+        wave++;
     }
 
 
@@ -85,5 +94,13 @@ public class GameManager : MonoBehaviour
     bool IsGameOver()
     {
         return (people.FindAll(p => p.gameObject.GetComponent<PersonController>().IsHealthy()).Count == people.Count);
+    }
+
+
+    IEnumerator ShowNewWaveMessage()
+    {
+        yield return new WaitForSeconds(5);
+        newWaveText.gameObject.SetActive(false);
+
     }
 }

@@ -160,8 +160,8 @@ public class PersonController : MonoBehaviour
     {
 
         this.infected = infected;
-        this.dead = false;
-        this.recovered = false;
+        dead = false;
+        recovered = false;
         if (infected)
         {
             this.mr.material = illMaterial;
@@ -177,4 +177,7 @@ public class PersonController : MonoBehaviour
     {
         return infected;
     }
+
+
+
 }
